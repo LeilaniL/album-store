@@ -3,9 +3,7 @@ import { Album } from './album.model';
 import { ALBUMS } from './mock-albums';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AlbumService {
   albums: FirebaseListObservable<any[]>;
 
@@ -16,11 +14,11 @@ export class AlbumService {
   getAlbums() {
     return this.albums;
   }
-  getAlbumById(albumId: number) {
-    for (let i = 0; i <= ALBUMS.length - 1; i++) {
-      if (ALBUMS[i].id === albumId) {
-        return ALBUMS[i];
-      }
-    }
+
+  addAlbum(newAlbum: Album) {
+    this.albums.push(newAlbum);
+  }
+  getAlbumById(albumId: string) {
+    return this.database.object('albums/' + albumId)
   }
 }
